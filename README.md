@@ -5,6 +5,9 @@ Protótipo acadêmico que recebe mensagens em linguagem natural e fotografias pa
 Demonstração publicada:
 https://ldsgreccoia.com.br/analise-cabelo-llm/
 
+Repositório GitHub:
+https://github.com/ldsgrecco/analise-cabelo-llm
+
 ## Objetivo da atividade
 
 Este protótipo foi desenvolvido para:
@@ -27,6 +30,12 @@ A intenção permite identificar:
 - ambos os aspectos.
 
 Comprimento e textura são informações extraídas dentro da mesma intenção principal.
+
+## Relação com a proposta inicial
+
+Na proposta inicial, eu pretendia incorporar a LLM ao projeto Espelho Virtual para analisar comprimento, textura, volume e sinais visuais de coloração.
+
+Durante o desenvolvimento, percebi que seria mais adequado manter esta atividade como um protótipo acadêmico separado, sem alterar o funcionamento do Espelho Virtual. Por isso, concentrei esta implementação no comprimento e na textura aparentes. Volume e sinais de coloração permanecem como possibilidades para uma etapa futura.
 
 ## Arquitetura
 
@@ -149,9 +158,11 @@ A API ficará disponível em `http://127.0.0.1:8001`.
 
 | Tipo de teste | Mensagem enviada | Comportamento esperado | Resultado |
 |---|---|---|---|
-| Mensagem completa | `como ele é?` com fotografia | Identificar comprimento e textura aparentes | Realizado com sucesso |
-| Informação faltando | `quero saber o tamanho` sem fotografia | Solicitar o envio de uma fotografia | Realizado com sucesso |
-| Linguagem informal | `q tamaho ta meu cabelo?` | Interpretar como pedido de comprimento e solicitar foto | Realizado com sucesso |
+| Mensagem completa | `como ele é?` com fotografia | Identificar comprimento e textura aparentes | Identificou comprimento médio e textura cacheada. |
+| Informação faltando | `quero saber o tamanho` sem fotografia | Solicitar o envio de uma fotografia | Solicitou uma fotografia e não inventou uma classificação. |
+| Linguagem informal | `q tamaho ta meu cabelo?` | Interpretar como pedido de comprimento e solicitar foto | Interpretou a mensagem informal e identificou comprimento médio e textura cacheada. |
+
+Os testes também foram registrados por meio de capturas de tela e estão organizados no relatório entregue na pasta `docs/`.
 
 ## Dificuldades encontradas
 
@@ -165,6 +176,11 @@ A API ficará disponível em `http://127.0.0.1:8001`.
 - Registrar histórico de análises em banco de dados.
 - Permitir que a pessoa avalie a resposta recebida.
 - Ampliar os testes com diferentes tipos de fotografia e variações de linguagem.
+
+## Relatório da entrega
+
+O relatório completo, com a demonstração visual dos testes, está disponível em:
+[Relatorio_de_Testes_Analise_de_Cabelo_LLM.docx](docs/Relatorio_de_Testes_Analise_de_Cabelo_LLM.docx)
 
 ## Limitação ética
 
