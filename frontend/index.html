@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    name="description"
+    content="Protótipo acadêmico com LLM para identificar comprimento e textura aparente do cabelo."
+  />
+  <title>Análise de Cabelo com LLM</title>
+  <link rel="stylesheet" href="style.css?v=20260907-3" />
+</head>
+<body>
+  <main class="page">
+    <header>
+      <p class="eyebrow">PROTÓTIPO ACADÊMICO</p>
+      <h1>Análise de Cabelo com LLM</h1>
+      <p class="subtitle">
+        Escreva o que deseja descobrir. Quando necessário, envie uma fotografia.
+      </p>
+    </header>
+
+    <section class="chat-card" aria-label="Conversa para análise de cabelo">
+      <div id="messages" class="messages" aria-live="polite">
+        <article class="bubble assistant">
+          Olá! O que você gostaria de descobrir sobre seu cabelo? Envie uma foto e eu posso identificar o comprimento aparente — curto, médio, longo ou extralongo — e a textura aparente — lisa, ondulada, cacheada ou crespa. Se preferir, analiso os dois.
+        </article>
+      </div>
+
+      <form id="chat-form">
+        <textarea
+          id="message"
+          name="message"
+          rows="3"
+          placeholder="Ex.: q tamanho ta meu cabelo e ele é ondulado ou liso?"
+          aria-label="Mensagem"
+        ></textarea>
+
+        <div class="form-actions">
+          <button id="attach-photo" class="file-button" type="button">
+            Anexar foto
+          </button>
+
+          <input
+            id="image"
+            name="image"
+            class="file-input"
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+          />
+
+          <span id="file-name">Nenhuma foto selecionada</span>
+
+          <button id="send" type="submit">Enviar</button>
+        </div>
+      </form>
+    </section>
+
+    <footer>
+      Classificações visuais para fins acadêmicos. A análise não substitui avaliação profissional.
+    </footer>
+  </main>
+
+  <script src="app.js?v=20260907-6"></script>
+</body>
+</html>
