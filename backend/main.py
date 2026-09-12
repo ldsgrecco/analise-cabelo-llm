@@ -395,7 +395,7 @@ async def chat(
 
         return {
             "session_id": session_id,
-            "message": "Por nada! Quando quiser analisar outra foto, estarei por aqui.",
+            "message": "Tudo bem! Quando quiser continuar, é só enviar uma nova mensagem ou outra foto.",
             "status": "encerrado",
         }
 
