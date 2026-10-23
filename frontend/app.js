@@ -35,6 +35,59 @@ function setDefaultInputState() {
 
 input.focus();
 
+
+const voiceButton = document.querySelector("#voice-button");
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+if (!SpeechRecognition) {
+  voiceButton.disabled = true;
+  voiceButton.textContent = "🎤 Indisponível";
+} else {
+  const recognition = new SpeechRecognition();
+
+  recognition.lang = "pt-BR";
+  recognition.continuous = false;
+  recognition.interimResults = false;
+
+  let listening = false;
+
+  recognition.onstart = () => {
+    listening = true;
+    voiceButton.textContent = "⏹ Parar";
+  };
+
+  recognition.onresult = (event) => {
+    const text = event.results[0][0].transcript.trim();
+
+    if (text) {
+      input.value = [input.value.trim(), text]
+        .filter(Boolean)
+        .join(" ");
+      input.focus();
+    }
+  };
+
+  recognition.onerror = (event) => {
+    if (event.error === "not-allowed") {
+      alert("Permita o acesso ao microfone no navegador.");
+    }
+  };
+
+  recognition.onend = () => {
+    listening = false;
+    voiceButton.textContent = "🎤 Falar";
+  };
+
+  voiceButton.addEventListener("click", () => {
+    if (listening) {
+      recognition.stop();
+    } else {
+      recognition.start();
+    }
+  });
+}
+
+
 fileButton.addEventListener("click", () => {
   fileInput.click();
 });
