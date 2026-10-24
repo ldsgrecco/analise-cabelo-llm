@@ -1,3 +1,4 @@
+
 const form = document.querySelector("#chat-form");
 const input = document.querySelector("#message");
 const fileInput = document.querySelector("#image");
@@ -5,6 +6,7 @@ const fileButton = document.querySelector("#attach-photo");
 const fileName = document.querySelector("#file-name");
 const messages = document.querySelector("#messages");
 const send = document.querySelector("#send");
+const voiceButton = document.querySelector("#voice-button");
 
 let sessionId = crypto.randomUUID();
 
@@ -35,9 +37,12 @@ function setDefaultInputState() {
 
 input.focus();
 
+// ==================================================
+// RECONHECIMENTO DE VOZ
+// ==================================================
 
-const voiceButton = document.querySelector("#voice-button");
-const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+const SpeechRecognition =
+  window.SpeechRecognition || window.webkitSpeechRecognition;
 
 if (!SpeechRecognition) {
   voiceButton.disabled = true;
@@ -50,19 +55,25 @@ if (!SpeechRecognition) {
   recognition.interimResults = false;
 
   let listening = false;
+  let textoAntesDoDitado = "";
 
   recognition.onstart = () => {
     listening = true;
+    textoAntesDoDitado = input.value.trim();
     voiceButton.textContent = "⏹ Parar";
   };
 
   recognition.onresult = (event) => {
-    const text = event.results[0][0].transcript.trim();
+    const text = Array.from(event.results)
+      .map((result) => result[0].transcript)
+      .join(" ")
+      .trim();
 
     if (text) {
-      input.value = [input.value.trim(), text]
+      input.value = [textoAntesDoDitado, text]
         .filter(Boolean)
         .join(" ");
+
       input.focus();
     }
   };
@@ -87,6 +98,9 @@ if (!SpeechRecognition) {
   });
 }
 
+// ==================================================
+// ANEXAR FOTOGRAFIA
+// ==================================================
 
 fileButton.addEventListener("click", () => {
   fileInput.click();
@@ -103,12 +117,20 @@ fileInput.addEventListener("change", () => {
   }
 });
 
+// ==================================================
+// ENVIO DE MENSAGEM PELO TECLADO
+// ==================================================
+
 input.addEventListener("keydown", (event) => {
   if (event.key === "Enter" && !event.shiftKey) {
     event.preventDefault();
     form.requestSubmit();
   }
 });
+
+// ==================================================
+// ENVIO DA MENSAGEM E ANALISE PELA API
+// ==================================================
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -131,6 +153,7 @@ form.addEventListener("submit", async (event) => {
   }
 
   const data = new FormData();
+
   data.append("message", text);
   data.append("session_id", sessionId);
 
@@ -167,7 +190,9 @@ form.addEventListener("submit", async (event) => {
     }
 
     if (!response.ok) {
-      throw new Error(result.detail || "Não foi possível concluir a análise.");
+      throw new Error(
+        result.detail || "Não foi possível concluir a análise."
+      );
     }
 
     if (result.session_id) {
@@ -188,9 +213,11 @@ form.addEventListener("submit", async (event) => {
     }
   } catch (error) {
     addBubble(
-      error.message || "Não foi possível concluir a análise. Tente novamente.",
+      error.message ||
+        "Não foi possível concluir a análise. Tente novamente.",
       "error"
     );
+
     setDefaultInputState();
   } finally {
     input.disabled = false;
@@ -198,11 +225,12 @@ form.addEventListener("submit", async (event) => {
     send.disabled = false;
     send.textContent = "Enviar";
 
- setTimeout(() => {
-  if (nextFocus === "file") {
-    fileButton.focus();
-  } else {
-    input.focus();
+    setTimeout(() => {
+      if (nextFocus === "file") {
+        fileButton.focus();
+      } else {
+        input.focus();
+      }
+    }, 50);
   }
-}, 50); }
 });
