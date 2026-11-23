@@ -14,3 +14,20 @@ venv/
 .idea/
 
 *.log
+
+# Privacidade e credenciais
+.env
+**/.env
+**/.env.*
+!**/.env.example
+*.pem
+*.key
+*.p12
+__pycache__/
+.venv/
+venv/
+*.pyc
+*.log
+SENHA*
+*senha*txt
+

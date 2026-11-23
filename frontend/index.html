@@ -1,66 +1,87 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta
-    name="description"
-    content="Protótipo acadêmico com LLM para identificar comprimento e textura aparente do cabelo."
-  />
-  <title>Análise de Cabelo com LLM</title>
-  <link rel="stylesheet" href="style.css?v=20260907-3" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Protótipo acadêmico de análise de cabelo com voz e Gemini." />
+<title>Análise de Cabelo com LLM — Demonstração</title>
+<link rel="stylesheet" href="style.css?v=20261123-headfix2" />
 </head>
 <body>
-  <main class="page">
-    <header>
-      <p class="eyebrow">PROTÓTIPO ACADÊMICO</p>
-      <h1>Análise de Cabelo com LLM</h1>
-      <p class="subtitle">
-        Escreva o que deseja descobrir. Quando necessário, envie uma fotografia.
-      </p>
-    </header>
-
-    <section class="chat-card" aria-label="Conversa para análise de cabelo">
-      <div id="messages" class="messages" aria-live="polite">
-        <article class="bubble assistant">
-          Olá! O que você gostaria de descobrir sobre seu cabelo? Envie uma foto e eu posso identificar o comprimento aparente — curto, médio, longo ou extralongo — e a textura aparente — lisa, ondulada, cacheada ou crespa. Se preferir, analiso os dois.
-        </article>
+<main class="page">
+<header class="page-header">
+  <div class="header-academic" aria-label="Identificação acadêmica">
+    <div class="eyebrow">PROTÓTIPO ACADÊMICO</div>
+    <div class="academic-period">SEGUNDO BIMESTRE · LLM</div>
+  </div>
+  <div class="header-main">
+    <h1>Análise de Cabelo com LLM</h1>
+    <p>Duas formas de interação por voz</p>
+  </div>
+  <div class="header-preparation" aria-label="Lembrete para iniciar a demonstração">
+    <strong>Preparação da demonstração</strong>
+    <span>1. Na Área de Trabalho, abrir o iniciador LLM</span>
+    <span>2. Servidores e Chrome iniciam automaticamente</span>
+  </div>
+</header>
+<div class="workspace">
+  <aside class="sidebar" aria-label="Galeria fixa de fotografias">
+    <header class="sidebar-header"><h2>🖼️ Galeria de Fotografias</h2><p>Três imagens de exemplo para a demonstração por voz.</p></header>
+    <div class="sidebar-gallery" id="gallery-sidebar" aria-label="Selecionar fotografia por número"></div>
+    <p class="sidebar-note">No Modo 2, diga “Selecione a foto dois” ou clique na fotografia.</p>
+  </aside>
+  <section class="main-content" aria-label="Área central de análise">
+    <nav class="mode-tabs" role="tablist" aria-label="Escolha o modo de demonstração">
+       <button class="mode-tab active" id="tab-manual" role="tab" aria-selected="true" aria-controls="panel-manual" data-mode="manual" type="button">🎤 Modo 1 — Foto manual</button>
+       <button class="mode-tab" id="tab-galeria" role="tab" aria-selected="false" aria-controls="panel-galeria" data-mode="galeria" type="button">🖼️ Modo 2 — Galeria por voz</button>
+    </nav>
+    <section class="demo-panel" id="panel-manual" role="tabpanel" aria-labelledby="tab-manual">
+      <div class="hint-card">
+        <strong>Modo 1: Falar e anexar</strong>
+        <p><b>1.</b> Clique em Falar e diga “Analise a textura do meu cabelo”. Depois clique em Enviar.</p>
+        <p><b>2.</b> Quando solicitado, clique em Anexar foto, escolha a imagem e clique em Enviar.</p>
+        <p><b>3.</b> Para continuar: “Agora analise o comprimento da mesma foto”.</p>
       </div>
-
-      <form id="chat-form">
-        <textarea
-          id="message"
-          name="message"
-          rows="3"
-          placeholder="Ex.: q tamanho ta meu cabelo e ele é ondulado ou liso?"
-          aria-label="Mensagem"
-        ></textarea>
-
+      <div class="messages" aria-live="polite">
+        <article class="bubble assistant">Olá! Posso analisar o comprimento e a textura aparente do cabelo. Faça seu pedido e envie uma fotografia.</article>
+      </div>
+      <form class="chat-form">
+        <textarea class="message-input" name="message" rows="2" placeholder="Fale ou digite sua pergunta..." aria-label="Mensagem do modo manual"></textarea>
         <div class="form-actions">
-          <button id="attach-photo" class="file-button" type="button">
-            Anexar foto
-          </button>
-
-          <input
-            id="image"
-            name="image"
-            class="file-input"
-            type="file"
-            accept="image/jpeg,image/png,image/webp"
-          />
-
-          <span id="file-name">Nenhuma foto selecionada</span>
-
-          <button id="send" type="submit">Enviar</button>
+          <button class="voice-button" type="button">🎤 Falar</button>
+          <button class="attach-photo file-button" type="button">📎 Anexar foto</button>
+          <input class="image-input file-input" type="file" name="image" accept="image/jpeg,image/png,image/webp" />
+          <span class="file-name">Nenhuma foto selecionada</span>
+          <button class="send-button" type="submit">Enviar</button>
         </div>
       </form>
     </section>
-
-    <footer>
-      Classificações visuais para fins acadêmicos. A análise não substitui avaliação profissional.
-    </footer>
-  </main>
-
-  <script src="app.js?v=20260907-6"></script>
+    <section class="demo-panel" id="panel-galeria" role="tabpanel" aria-labelledby="tab-galeria" hidden>
+      <div class="hint-card">
+        <strong>Modo 2: Escolher foto falando</strong>
+        <p><b>1.</b> Clique em Falar e diga: “Selecione a foto dois e analise a textura do cabelo”.</p>
+        <p><b>2.</b> Depois diga: “Agora analise o comprimento da mesma foto”.</p>
+        <p><b>3.</b> “Ativar Gepeto” é experimental e não é necessário para apresentar.</p>
+      </div>
+      <div class="messages" aria-live="polite">
+        <article class="bubble assistant">Olá! Escolha uma foto por voz ou clique na galeria à esquerda. Posso analisar comprimento, textura ou ambos.</article>
+      </div>
+      <form class="chat-form">
+        <textarea class="message-input" name="message" rows="2" placeholder="Ex.: Selecione a foto 2 e analise a textura" aria-label="Mensagem do modo galeria"></textarea>
+        <div class="form-actions">
+          <button class="voice-button" type="button">🎤 Falar</button>
+          <button class="attach-photo file-button" type="button">📎 Anexar foto</button>
+          <input class="image-input file-input" type="file" name="image" accept="image/jpeg,image/png,image/webp" />
+          <span class="file-name">Nenhuma foto selecionada</span>
+          <button class="send-button" type="submit">Enviar</button>
+        </div>
+      </form>
+    </section>
+  </section>
+</div>
+<details class="tech-note"><summary>Como funciona o projeto — lembrete para apresentar</summary><p>O navegador reconhece a voz e a aplicação roda localmente no Acer. O backend Python/FastAPI envia a fotografia pela internet à API da Gemini, que analisa e devolve o resultado. O modelo de IA roda na nuvem do Google; a VPS não participa da execução local.</p></details>
+<footer>Projeto acadêmico · Classificações visuais estimadas; não substituem avaliação profissional.</footer>
+</main>
+<script src="app.js?v=20261123-headfix2"></script>
 </body>
 </html>
